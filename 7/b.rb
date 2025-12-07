@@ -2,8 +2,7 @@ EXAMPLE = File.new('example.txt', 'r').readlines
 INPUT = File.new('input.txt', 'r').readlines
 
 def parse(input)
-  start = input.first.split('').find_index { |c| c == 'S' }
-  input.delete_at(0)
+  start = input.shift.split('').find_index { |c| c == 'S' }
   splits = input.map do |line|
     line.split('').map.with_index do |c, i|
       c == '^' ? i : nil
@@ -15,12 +14,9 @@ end
 
 def solve(input)
   start, splits = parse(input)
-  p start, splits
   beams = { start => 1 }
   splits.each do |splitters|
-    p beams
     out_beams = {}
-    p splitters
     beams.each do |beam, n|
       if splitters.any? { |splitter| beam == splitter }
         out_beams[beam - 1] ||= 0
